@@ -52,7 +52,8 @@ public class RedBlackTree {
             if (grandFather.getParent() != null && grandFather.getParent().isRed() && grandFather.getUncle().isPresent()) {
                 recolourNodes(grandFather);
             }
-        } else if (newNode.isLeftChild() && newNode.getParent().isLeftChild() ||
+        } else if (
+                newNode.isLeftChild() && newNode.getParent().isLeftChild() ||
                 newNode.isRightChild() && newNode.getParent().isRightChild()) {
             RedBlackTreeNode parent = newNode.getParent();
             RedBlackTreeNode grandFather = newNode.getParent().getParent();
@@ -60,10 +61,22 @@ public class RedBlackTree {
             NodeColor parentColor = parent.getColor();
             if (newNode.isLeftChild() && newNode.getParent().isLeftChild()) { // Left Left case
                 RedBlackTreeNode right = parent.getRightChild();
+                RedBlackTreeNode grandFatherParent = grandFather.getParent();
+                if (grandFatherParent!= null && grandFather.isRightChild()) {
+                    grandFatherParent.setRightChild(parent);
+                } else if (grandFatherParent!= null && grandFather.isLeftChild()) {
+                    grandFatherParent.setLeftChild(parent);
+                }
                 parent.setRightChild(grandFather);
                 grandFather.setLeftChild(right);
             } else if (newNode.isRightChild() && newNode.getParent().isRightChild()) { // Right Right case
                 RedBlackTreeNode left = parent.getLeftChild();
+                RedBlackTreeNode grandFatherParent = grandFather.getParent();
+                if (grandFatherParent!= null && grandFather.isRightChild()) {
+                    grandFatherParent.setRightChild(parent);
+                } else if (grandFatherParent!= null && grandFather.isLeftChild()) {
+                    grandFatherParent.setLeftChild(parent);
+                }
                 parent.setLeftChild(grandFather);
                 grandFather.setRightChild(left);
             }
@@ -72,6 +85,25 @@ public class RedBlackTree {
             }
             grandFather.setColor(parentColor);
             parent.setColor(grandFatherColor);
+        } else if (
+                newNode.isRightChild() && newNode.getParent().isLeftChild()
+               || newNode.isLeftChild() && newNode.getParent().isRightChild()) {
+            RedBlackTreeNode parent = newNode.getParent();
+            RedBlackTreeNode grandFather = newNode.getParent().getParent();
+            if (newNode.isRightChild() && newNode.getParent().isLeftChild()) {
+                RedBlackTreeNode left = newNode.getLeftChild();
+                newNode.setLeftChild(parent);
+                grandFather.setLeftChild(newNode);
+                parent.setRightChild(left);
+                recolourNodes(parent);
+            }
+            else if (newNode.isLeftChild() && newNode.getParent().isRightChild()) {
+                RedBlackTreeNode right = newNode.getRightChild();
+                newNode.setRightChild(parent);
+                grandFather.setRightChild(newNode);
+                parent.setLeftChild(right);
+                recolourNodes(parent);
+            }
         }
     }
 
@@ -101,18 +133,16 @@ public class RedBlackTree {
         }
 
         public void setLeftChild(RedBlackTreeNode leftChild) {
-            if (leftChild == null) {
-                return;
+            if (leftChild != null) {
+                leftChild.setParent(this);
             }
-            leftChild.setParent(this);
             this.leftChild = leftChild;
         }
 
         public void setRightChild(RedBlackTreeNode rightChild) {
-            if (rightChild == null) {
-                return;
+            if (rightChild != null) {
+                rightChild.setParent(this);
             }
-            rightChild.setParent(this);
             this.rightChild = rightChild;
         }
 

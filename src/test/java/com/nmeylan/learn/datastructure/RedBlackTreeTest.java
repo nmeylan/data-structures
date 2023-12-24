@@ -153,4 +153,50 @@ public class RedBlackTreeTest {
         assertThat(redBlackTree.getRoot().getLeftChild()).isEqualTo(node1);
         assertThat(node1.getColor()).isEqualTo(RED);
     }
+
+    @Test
+    public void insert_shouldRotateRightLeftRotation() {
+        // Given
+        RedBlackTree redBlackTree = new RedBlackTree();
+        RedBlackTree.RedBlackTreeNode node10 = redBlackTree.insert(10);
+        RedBlackTree.RedBlackTreeNode node1 = redBlackTree.insert(1);
+        RedBlackTree.RedBlackTreeNode node20 = redBlackTree.insert(20);
+        RedBlackTree.RedBlackTreeNode node25 = redBlackTree.insert(25);
+        // When
+        RedBlackTree.RedBlackTreeNode node22 = redBlackTree.insert(22);
+        // Then
+        assertThat(redBlackTree.getRoot()).isEqualTo(node10);
+        assertThat(redBlackTree.getRoot().getLeftChild()).isEqualTo(node1);
+        assertThat(redBlackTree.getRoot().getRightChild()).isEqualTo(node22);
+        assertThat(node22.getLeftChild()).isEqualTo(node20);
+        assertThat(node22.getRightChild()).isEqualTo(node25);
+        assertThat(node10.getColor()).isEqualTo(BLACK);
+        assertThat(node1.getColor()).isEqualTo(BLACK);
+        assertThat(node22.getColor()).isEqualTo(BLACK);
+        assertThat(node20.getColor()).isEqualTo(RED);
+        assertThat(node25.getColor()).isEqualTo(RED);
+    }
+    @Test
+    public void insert_shouldRotateLeftRightRotation() {
+        // Given
+        RedBlackTree redBlackTree = new RedBlackTree();
+        RedBlackTree.RedBlackTreeNode node20 = redBlackTree.insert(20);
+        RedBlackTree.RedBlackTreeNode node10 = redBlackTree.insert(10);
+        RedBlackTree.RedBlackTreeNode node30 = redBlackTree.insert(30);
+        RedBlackTree.RedBlackTreeNode node7 = redBlackTree.insert(7);
+        // When
+        RedBlackTree.RedBlackTreeNode node9 = redBlackTree.insert(9);
+        // Then
+        assertThat(redBlackTree.getRoot()).isEqualTo(node20);
+        assertThat(redBlackTree.getRoot().getLeftChild()).isEqualTo(node9);
+        assertThat(redBlackTree.getRoot().getRightChild()).isEqualTo(node30);
+        assertThat(node9.getLeftChild()).isEqualTo(node7);
+        assertThat(node9.getRightChild()).isEqualTo(node10);
+        assertThat(node20.getColor()).isEqualTo(BLACK);
+        assertThat(node9.getColor()).isEqualTo(BLACK);
+        assertThat(node30.getColor()).isEqualTo(BLACK);
+        assertThat(node7.getColor()).isEqualTo(RED);
+        assertThat(node10.getColor()).isEqualTo(RED);
+    }
+
 }

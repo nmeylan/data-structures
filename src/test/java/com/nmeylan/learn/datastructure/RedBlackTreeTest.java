@@ -2,6 +2,8 @@ package com.nmeylan.learn.datastructure;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Optional;
+
 import static com.nmeylan.learn.datastructure.RedBlackTree.NodeColor.BLACK;
 import static com.nmeylan.learn.datastructure.RedBlackTree.NodeColor.RED;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -197,6 +199,21 @@ public class RedBlackTreeTest {
         assertThat(node30.getColor()).isEqualTo(BLACK);
         assertThat(node7.getColor()).isEqualTo(RED);
         assertThat(node10.getColor()).isEqualTo(RED);
+    }
+
+    @Test
+    public void getNode_shouldReturnFoundNode() {
+        // Given
+        RedBlackTree redBlackTree = new RedBlackTree();
+        RedBlackTree.RedBlackTreeNode node20 = redBlackTree.insert(20);
+        RedBlackTree.RedBlackTreeNode node10 = redBlackTree.insert(10);
+        RedBlackTree.RedBlackTreeNode node30 = redBlackTree.insert(30);
+        RedBlackTree.RedBlackTreeNode node7 = redBlackTree.insert(7);
+        RedBlackTree.RedBlackTreeNode node9 = redBlackTree.insert(9);
+        // When
+        Optional<RedBlackTree.RedBlackTreeNode> node = redBlackTree.getNode(7);
+        // Then
+        assertThat(node).hasValue(node7);
     }
 
 }

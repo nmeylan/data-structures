@@ -107,6 +107,22 @@ public class RedBlackTree {
         }
     }
 
+    public Optional<RedBlackTreeNode> getNode(long value) {
+        RedBlackTreeNode node = root;
+        while(node != null) {
+            if (node.getLeftChild() != null && value < node.value) {
+                node = node.getLeftChild();
+            } else if (node.getRightChild() != null && value > node.value) {
+                node = node.getRightChild();
+            } else if (node.value == value){
+                return Optional.of(node);
+            } else {
+                break;
+            }
+        }
+        return Optional.empty();
+    }
+
 
     public RedBlackTreeNode getRoot() {
         return root;
